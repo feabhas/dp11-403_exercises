@@ -1,0 +1,29 @@
+name: dp11-403 exercises
+
+on: [push]
+
+jobs:
+    build:         
+        runs-on: ubuntu-latest
+        environment: build
+        container:
+            image: feabhas/ubuntu-projects:latest
+            options: -u 1001
+        steps:
+            - name: checkout
+              uses: actions/checkout@v4
+              with:
+                sparse-checkout: solutions
+                fetch-depth: 1     
+            - name: create workspace
+              run: |
+                cp -r /home/feabhas/projects/cmake-host .
+            - name: build solutions     # check soltuions before creating templates
+              run: |
+                cd cmake-host
+                bash ./build-one.sh --all
+            - name: build templates
+              run: |			# this will reorganise the workspace
+                cd cmake-host
+                bash ./build-template.sh --build
+                
