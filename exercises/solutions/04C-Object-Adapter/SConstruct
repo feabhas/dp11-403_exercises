@@ -1,0 +1,26 @@
+#!python
+import os
+
+env = Environment()
+
+full_path = os.path.realpath(".")
+path, cwd = os.path.split(full_path)
+
+# Set the target executable based on current dir name
+target = cwd
+
+# CCFLAGS : general C and C++ flags
+env.Append( CCFLAGS = [
+    '-Wall',
+    '-Wextra',
+    '-std=c++14',
+    ] )
+
+env.Append( CCFLAGS = [
+    '-pg',
+    ] )
+
+env['CPPPATH'] = ['inc'] # '#/dir' us relative to SConstruct file location
+
+env.Program( target=target, source=Glob('src/*.cpp'))
+

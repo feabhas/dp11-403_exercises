@@ -1,0 +1,24 @@
+
+import os
+
+env = Environment()
+
+
+libraries = ['pthread']
+library_paths = ''
+
+# CCFLAGS : general C and C++ flags
+env.Append( CCFLAGS = [
+    '-Wall',
+    '-Wextra',
+    '-std=c++14',
+    '-pthread',
+    ] )
+
+for example in Glob('*', strings=True):
+    if os.path.isdir(example):
+        exe_name = example
+        SConscript(example+"/SConscript", exports=["env", "exe_name", "libraries", "library_paths"])
+
+
+

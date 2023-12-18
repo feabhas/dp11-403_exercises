@@ -1,0 +1,32 @@
+import os
+
+env = Environment()
+
+full_path = os.path.realpath(".")
+path, cwd = os.path.split(full_path)
+# Set the target executable.  
+#
+#target = 'App'
+target = cwd
+
+# Select the source files
+#
+source_files = Glob('src/*.cpp')
+
+# Set up any required libraries
+#
+libraries = ['pthread']
+library_paths = ''
+
+# CCFLAGS : general C and C++ flags
+#
+env.Append( CCFLAGS = [
+    '-Wall',
+    '-Wextra',
+    '-std=c++14',
+    '-pthread',
+    ] )
+
+env['CPPPATH'] = ['inc'] # '#/dir' us relative to SConstruct file location
+
+env.Program(target, source_files, LIBS = libraries, LIBPATH = library_paths)

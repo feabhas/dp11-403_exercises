@@ -1,0 +1,7 @@
+Import('*')
+import os
+
+for example in Glob('*', strings=True):
+    if os.path.isdir(example):
+        exe_name = example
+        SConscript(example+"/SConscript", exports=["env", "exe_name", "libraries", "library_paths"])

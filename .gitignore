@@ -1,0 +1,75 @@
+# configuration
+.idea/
+.eclipse/
+.DS_Store
+.vs/
+Thumbs.db
+Desktop.ini
+~$*
+
+# retained files
+# .vscode
+# .devcontainer
+
+# build output
+build/
+debug/
+dist/
+out/
+__pycache__/
+
+# C/C++ build artefacts
+TEST*.xml
+*.app
+*.bsz
+*.d
+*.ii
+*.s
+*.elf
+*.exe
+*.hex
+*.log
+*.map
+*.o
+*.obj
+*.py[cod]
+.sconsign.dblite
+*.sln
+*.slo
+*.ssz
+*.su
+
+# Large media files
+*.app
+*.avi
+*.flv
+*.mov
+*.mp4
+*.tiff
+*.wmv
+*.zip
+
+# Precompiled Headers
+*.gch
+*.pch
+*.ifc
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
