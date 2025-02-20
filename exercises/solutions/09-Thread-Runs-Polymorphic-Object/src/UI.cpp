@@ -4,24 +4,24 @@
 
 #include "UI.h"
 #include <iostream>
+#include <chrono>
 
-using std::cout;
+using namespace std::chrono_literals;
 
-UI::UI(Queue &queue) : msgQ{&queue} {}
+UI::UI(MessageQueue &queue) : msgQ{&queue} {}
 
 constexpr int max_value = 10U;
 
 bool UI::run() {
   int selection{};
-  cout << "Enter a number (0 to exit): ";
-  cin >> selection;
-  cout << '\n';
+  std::cout << "Enter a number (0 to exit): ";
+  std::cin >> selection;
+  std::cout << '\n';
 
   selection %= max_value;
-  if (msgQ)
-    msgQ->post(selection);
+  msgQ->send(selection);
   if (selection == 0)
     return true;
-  this_thread::sleep_for(500ms);
+  std::this_thread::sleep_for(500ms);
   return false; // <=Run again
 }

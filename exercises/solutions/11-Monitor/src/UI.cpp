@@ -5,20 +5,19 @@
 #include "UI.h"
 #include <iostream>
 
-using std::cout;
+UI::UI(ConcurrentQueue &queue) : msgQ{&queue} {}
 
-UI::UI(Queue &queue) : msgQ{queue} {}
+constexpr int max_value = 10U;
 
 bool UI::run() {
   int selection{};
-  cout << "Enter a number (0 to exit): ";
-  cin >> selection;
-  cout << '\n';
+  std::cout << "Enter a number (0 to exit): ";
+  std::cin >> selection;
+  std::cout << '\n';
 
-  msgQ.post(selection);
-
+  selection %= max_value;
+  msgQ->send(selection);
   if (selection == 0)
     return true;
-  this_thread::sleep_for(500ms);
   return false; // <=Run again
 }

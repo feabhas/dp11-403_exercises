@@ -11,13 +11,13 @@
 
 class UI : public IRunnable {
 public:
-  explicit UI(Queue &queue);
+  explicit UI(MessageQueue &queue);
 
 protected:
   bool run() override;
 
 private:
-  Queue *msgQ{};
+  MessageQueue *msgQ{};
 };
 
 #endif // UI_H

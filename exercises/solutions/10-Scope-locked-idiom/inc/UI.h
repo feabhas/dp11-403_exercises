@@ -7,17 +7,17 @@
 #define UI_H
 
 #include "IRunnable.h"
-#include "MessageQueue.h"
+#include "ConcurrentQueue.h"
 
 class UI : public IRunnable {
 public:
-  explicit UI(Queue &queue);
+  explicit UI(ConcurrentQueue &queue);
 
 protected:
   bool run() override;
 
 private:
-  Queue &msgQ;
+  ConcurrentQueue *msgQ{};
 };
 
 #endif // UI_H

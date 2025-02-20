@@ -3,11 +3,11 @@
 // Feabhas Ltd
 
 #include "Display.h"
-#include "MessageQueue.h"
+#include "ConcurrentQueue.h"
 #include "UI.h"
 
 int main() {
-  Queue queue{};
+  ConcurrentQueue queue{};
 
   UI ui{queue};
   Display display{queue};

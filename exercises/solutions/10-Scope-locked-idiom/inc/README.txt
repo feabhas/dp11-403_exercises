@@ -1,4 +1,4 @@
-C++ - 502 EXERCISE TEMPLATE == == == == == == == == == == == ==
-    =
+C++-502 EXERCISE TEMPLATE
+=========================
 
-        Header files(.cpp) go in this folder
+Header files (.cpp) go in this folder

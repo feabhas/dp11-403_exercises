@@ -3,11 +3,11 @@
 // Feabhas Ltd
 
 #include "Display.h"
-#include "MessageQueue.h"
+#include "ConcurrentQueue.h"
 #include "UI.h"
 
 int main() {
-  Queue queue{};
+  ConcurrentQueue queue{};
 
   UI ui{queue};
   Display display{queue};
@@ -19,11 +19,8 @@ int main() {
     } while (!finished);
   };
 
-  std::thread t2{run_policy, std::ref(display)};
-
-  this_thread::sleep_for(1s);
-
   std::thread t1{run_policy, std::ref(ui)};
+  std::thread t2{run_policy, std::ref(display)};
 
   t1.join();
   t2.join();

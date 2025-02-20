@@ -6,61 +6,37 @@
 #ifndef MESSAGE_QUEUE_H
 #define MESSAGE_QUEUE_H
 
-#include "Buffer.h"
+#include "Messaging.h"
+#include <array>
 
-#include <condition_variable>
-#include <mutex>
+constexpr std::size_t queue_capacity{8};
 
-template <typename T, size_t sz = 16>
-class MessageQueue : private Buffer<T, sz> {
+class MessageQueue : public IMessageQueue,
+                     private std::array<Message, queue_capacity> {
 public:
-  MessageQueue();
-  void post(const T &in_val);
-  T get();
-  bool isEmpty();
+  static constexpr std::size_t capacity{queue_capacity};
+
+  MessageQueue() = default;
+
+  bool send(Message) override;
+  bool send(int) override;
+  bool send(int, std::string) override;
+  Message receive() override;
+  Message peek() override;
+  void purge() override;
+
+  bool is_empty() { return size == 0; }
+  bool is_full() { return size == capacity; }
 
   MessageQueue(const MessageQueue &) = delete;
-  MessageQueue(const MessageQueue &&) = delete;
+  MessageQueue(MessageQueue &&) = delete;
   MessageQueue &operator=(const MessageQueue &) = delete;
-  MessageQueue &operator=(const MessageQueue &&) = delete;
+  MessageQueue &operator=(MessageQueue &&) = delete;
 
 private:
-  std::mutex mtx{};
-  std::condition_variable has_data;
-  std::condition_variable has_space;
+  std::size_t next_in{};
+  std::size_t next_out{};
+  unsigned size{};
 };
-
-template <typename T, size_t sz>
-MessageQueue<T, sz>::MessageQueue() : Buffer<T, sz>() {}
-
-template <typename T, size_t sz>
-void MessageQueue<T, sz>::post(const T &in_val) {
-  unique_lock<mutex> guard(mtx);
-  while (Buffer<T, sz>::add(in_val) == Buffer<T, sz>::Error::FULL) {
-    has_space.wait(guard);
-  }
-
-  // Buffer<T, sz>::add(in_val);
-  has_data.notify_all();
-}
-
-template <typename T, size_t sz> T MessageQueue<T, sz>::get() {
-  T val{};
-  unique_lock<mutex> guard(mtx);
-  // while (isEmpty()) {
-  //   has_data.wait(guard);
-  // }
-  has_data.wait(guard, [this] { return !isEmpty(); });
-
-  Buffer<T, sz>::get(val);
-
-  has_space.notify_all();
-  return val;
-}
-template <typename T, size_t sz> bool MessageQueue<T, sz>::isEmpty() {
-  return Buffer<T, sz>::isEmpty();
-}
-
-using Queue = MessageQueue<int, 16>;
 
 #endif // MESSAGE_QUEUE_H

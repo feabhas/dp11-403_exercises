@@ -7,17 +7,17 @@
 #define Display_H
 
 #include "IRunnable.h"
-#include "MessageQueue.h"
+#include "ConcurrentQueue.h"
 
 class Display : public IRunnable {
 public:
-  explicit Display(Queue &queue);
+  explicit Display(ConcurrentQueue &queue);
 
 protected:
   bool run() override;
 
 private:
-  Queue &msgQ;
+  ConcurrentQueue *msgQ{};
 };
 
 #endif // Display_H

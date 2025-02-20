@@ -11,7 +11,7 @@
 
 template <typename RunnableType> class ToCompletion {
 public:
-  explicit ToCompletion(RunnableType &obj) : runObject(obj) {}
+  ToCompletion(RunnableType &obj) : runObject(obj) {}
 
   bool operator()() {
     bool done{};
@@ -27,7 +27,7 @@ private:
 
 template <typename RunnableType> class Once {
 public:
-  explicit Once(RunnableType &obj) : runObject(obj) {}
+  Once(RunnableType &obj) : runObject(obj) {}
 
   bool operator()() { return runObject(); }
 
@@ -37,7 +37,7 @@ private:
 
 template <typename RunnableType> class Forever {
 public:
-  explicit Forever(RunnableType &obj) : runObject(obj) {}
+  Forever(RunnableType &obj) : runObject(obj) {}
 
   bool operator()() {
     while (true) {

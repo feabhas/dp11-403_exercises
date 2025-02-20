@@ -11,13 +11,13 @@
 
 class Display : public IRunnable {
 public:
-  explicit Display(Queue &queue);
+  explicit Display(MessageQueue &queue);
 
 protected:
   bool run() override;
 
 private:
-  Queue *msgQ{};
+  MessageQueue *msgQ{};
 };
 
 #endif // Display_H

@@ -7,16 +7,16 @@
 
 using std::cout;
 
-Display::Display(Queue &queue) : msgQ{&queue} {}
+Display::Display(MessageQueue &queue) : msgQ{&queue} {}
 
 bool Display::run() {
-  if (msgQ->isEmpty())
+  if (msgQ->is_empty())
     return false;
 
-  int userChoice = msgQ->get();
-  cout << "User selected: " << userChoice << '\n';
+  auto [value, label] = msgQ->receive();
+  cout << "User selected: " << value << '\n';
 
-  if (userChoice == 0)
+  if (value == 0)
     return true; // finished
   return false;  // <=Run again
 }

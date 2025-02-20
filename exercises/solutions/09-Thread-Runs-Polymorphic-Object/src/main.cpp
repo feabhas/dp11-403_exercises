@@ -7,7 +7,7 @@
 #include "UI.h"
 
 int main() {
-  Queue queue{};
+  MessageQueue queue{};
 
   UI ui{queue};
   Display display{queue};

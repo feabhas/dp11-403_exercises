@@ -1,6 +1,0 @@
-Import('*')
-
-env['CPPPATH'] = ['inc'] # '#/dir' us relative to SConstruct file location
-
-env.Program( target=exe_name, source=Glob('src/*.cpp'),  LIBS = libraries, LIBPATH = library_paths)
-
