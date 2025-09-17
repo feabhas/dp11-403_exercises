@@ -3,26 +3,42 @@
 // Feabhas Ltd
 
 #pragma once
-#ifndef EVENTLOGPARSER_H
-#define EVENTLOGPARSER_H
 
 #include <fstream>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
-using namespace std;
 
-template <class DocBuilder> class EventLogParser {
+#ifdef __cpp_concepts
+// -------------------------------------------
+// Concept FOR BUILDER CLASSES
+//
+template <typename T, typename U>
+concept builder_concept = requires(T c, U u) {
+  c.preamble();
+  c.heading(u);
+  c.subheading(u);
+  c.body(u);
+  c.postamble();
+};
+// -------------------------------------------
+template <typename T>
+concept Builder = builder_concept<T, std::string_view>;
+// -------------------------------------------
+template <Builder DocBuilder> 
+#else
+template <typename DocBuilder> 
+#endif
+class EventLogParser {
 public:
   EventLogParser() = default;
   using product = typename DocBuilder::product_t;
 
   product construct(std::string_view filename) {
-    ifstream logfile{filename.data()};
-    // ifstream logfile{"log.txt"};
+    std::ifstream logfile{filename.data()};
     if (!logfile) {
-      cerr << "can't open output file \"" << filename << "\"\n";
+      std::cerr << "can't open output file \"" << filename << "\"\n";
       return {};
     }
 
@@ -30,9 +46,9 @@ public:
 
     while (!logfile.eof()) {
 
-      string entry{};
-      string date{};
-      string text{};
+      std::string entry{};
+      std::string date{};
+      std::string text{};
 
       getline(logfile, entry);
       if (logfile.eof()) {
@@ -48,7 +64,7 @@ public:
       if (logfile.eof()) {
         break;
       }
-      
+
       builder.heading(entry);
       builder.subheading(date);
       builder.body(text);
@@ -63,5 +79,3 @@ private:
   // Composition: Parser has a Builder
   DocBuilder builder{};
 };
-
-#endif // EVENTLOGPARSER_H
